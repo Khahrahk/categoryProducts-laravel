@@ -1,0 +1,39 @@
+.text-right {
+    text-align: right;
+}
+
+.icons i {
+    color: #b5b3b3;
+    border: 1px solid #b5b3b3;
+    padding: 6px;
+    margin-left: 4px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.list-group li {
+    margin-bottom: 12px;
+}
+
+.list li {
+    list-style: none;
+    padding: 10px;
+    border: 1px solid #e3dada;
+    margin-top: 12px;
+    border-radius: 5px;
+    background: #fff;
+}
+
+.profile-image img {
+    margin-left: 3px;
+}
+
+.feather {
+    width: 16px;
+    height: 16px;
+}
+
+.dt-container {
+    justify-content: space-between !important;
+    height: 90%;
+}
