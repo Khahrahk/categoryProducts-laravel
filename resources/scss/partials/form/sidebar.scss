@@ -1,0 +1,46 @@
+@import "bootstrap";
+@import "../../base/bootstrap-extended/variables";
+@import "../../base/bootstrap-extended/functions";
+@import "../../base/bootstrap-extended/mixins";
+
+.sidebar.menu-bar div {
+    height: 32px;
+    list-style: none;
+}
+
+.sidebar div .icon,
+.sidebar div .text {
+    color: $monochrome-800;
+}
+
+.sidebar div .text {
+    font-weight: 350;
+    font-size: 15px;
+}
+
+.sidebar div a {
+    text-decoration: none;
+}
+
+.sidebar {
+    overflow: hidden;
+    transition: all 1s ease;
+    opacity: 1;
+}
+
+.sidebar .text {
+    transition: all 0.5s ease;
+    white-space: nowrap;
+    opacity: 1;
+}
+
+.sidebar.close,
+.menu-bar.close {
+    width: 70px !important;
+}
+
+.toggle-left.close,
+.toggle-right.close,
+.sidebar.close .text {
+    display: none !important;
+}
