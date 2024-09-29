@@ -14,10 +14,16 @@
         <div class="menu d-flex flex-row w-100">
             <div class="d-flex flex-column gap-3 w-100 ps-4 pt-3">
                 <div class="d-flex flex-row justify-content-start align-items-center w-100">
-{{--                    <a href="{{route('dashboard')}}" class="d-flex flex-row gap-2 align-items-center w-100">--}}
-{{--                        <i class="bx bx-home-alt icon fs-5"></i>--}}
-{{--                        <span class="d-flex flex-column text nav-text">Dashboard</span>--}}
-{{--                    </a>--}}
+                    <a href="{{route('categories.index')}}" class="d-flex flex-row gap-2 align-items-center w-100">
+                        <i class="bx bx-home-alt icon fs-5"></i>
+                        <span class="d-flex flex-column text nav-text">Категории</span>
+                    </a>
+                </div>
+                <div class="d-flex flex-row justify-content-start align-items-center w-100">
+                    <a href="{{ route('products') }}" class="d-flex flex-row gap-2 align-items-center w-100">
+                        <i class="bx bx-home-alt icon fs-5"></i>
+                        <span class="d-flex flex-column text nav-text">Товары</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -26,7 +32,7 @@
                 <div class="d-flex flex-row justify-content-start align-items-center w-100">
                     <a href="{{ route('dashboard') }}" class="d-flex flex-row gap-2 align-items-center w-100">
                         <i class="bx bx-home-alt icon fs-5"></i>
-                        <span class="d-flex flex-column text nav-text">Dashboard</span>
+                        <span class="d-flex flex-column text nav-text">Главная</span>
                     </a>
                 </div>
             </div>
