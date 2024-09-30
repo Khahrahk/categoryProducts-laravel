@@ -11,7 +11,7 @@ class ProductUpdateRequest extends FormRequest
     {
         return [
             'id' => 'required',
-            'name' => ['required', Rule::unique('issues')->ignore($this->id)],
+            'name' => ['required', Rule::unique('products')->ignore($this->id)],
         ];
     }
 
