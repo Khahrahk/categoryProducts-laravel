@@ -31,7 +31,7 @@ class ProductController extends BaseController
             $product = Product::find($validated['id']);
             $product->update([
                 'name' => $validated['name'],
-                "category_id" => $validated["category_id"],
+                "category_id" => $validated["categoryId"],
                 'description' => $validated['description'],
                 'price' => $validated['price'],
             ]);
@@ -49,7 +49,7 @@ class ProductController extends BaseController
                 "name" => $validated["name"],
                 "description" => $validated["description"],
                 "price" => $validated["price"],
-                "category_id" => $validated["category_id"],
+                "category_id" => $validated["categoryId"],
             ]);
             return ['status' => true];
         } catch (\Throwable) {

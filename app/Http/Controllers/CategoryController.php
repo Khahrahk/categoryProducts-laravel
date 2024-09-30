@@ -53,6 +53,7 @@ class CategoryController extends BaseController
         $request->validate(['id' => 'required']);
         try {
             $category = Category::find($request->id);
+            $category->products->each->delete();
             $category->delete();
             return ['status' => true];
         } catch (\Throwable) {
