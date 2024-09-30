@@ -6,11 +6,10 @@
             <a class="navbar-brand  " href="{{route('dashboard')}}">Products</a>
             @if(auth()->user()?->name)
                 <button class="btn btn-dark" data-bs-toggle="dropdown" aria-expanded="false">
-                    {{ auth()->user()->name}}
+                    {{ auth()->user()->name }}
                 </button>
                 <ul class="dropdown-menu dropdown-menu-dark me-4 mt-2" style="right: 0; left: auto;">
-                    <li><a class="dropdown-item" href="#">Settings</a></li>
-                    <li><a class="dropdown-item" href="{{route('logout')}}">Logout</a></li>
+                    <li><a class="dropdown-item" href="{{route('logout')}}">Выход</a></li>
                 </ul>
             @else
                 <a href="{{route('login')}}">
