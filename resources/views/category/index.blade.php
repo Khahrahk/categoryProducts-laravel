@@ -25,8 +25,8 @@
                 <span>Категории</span>
                 <x-button outline sm primary label="Новая категория" data-bs-toggle="modal" data-bs-target="#create-modal"/>
             </div>
-            <div class="table-responsive pt-2 h-100">
-                <table class="table table-fixed h-100 display pageResize">
+            <div class="table-responsive">
+                <table class="table no-hover no-header-mobile table-fixed h-100" style="width:100%">
                     <thead>
                     <tr>
                         <th>
@@ -36,6 +36,8 @@
                     </thead>
                     <tbody>
                     </tbody>
+                    <tfoot>
+                    </tfoot>
                 </table>
             </div>
         </div>
@@ -67,7 +69,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Обновить категория</h1>
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Обновить категорию</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form class="w-100" id="form" method="post" action="">
@@ -93,18 +95,20 @@
 
 @section('page-script')
     <script>
-        let table = $('.table').dataTable({
-            "language": {
-                "sZeroRecords": "Нет результатов",
-            },
-            "bLengthChange": false,
-            "bFilter": true,
+        $.fn.dataTable.ext.pager.numbers_length = 5;
+        DataTable.type('num', 'detect', () => false);
+        DataTable.type('num-fmt', 'detect', () => false);
+        DataTable.type('html-num', 'detect', () => false);
+        DataTable.type('html-num-fmt', 'detect', () => false);
+
+        var table = $('.table').dataTable({
             "bInfo": false,
-            "bAutoWidth": false,
-            fixedHeader: true,
-            fixedFooter: true,
-            pageResize: true,
-            pageLength: 10,
+            "bFilter": false,
+            "bLengthChange": false,
+            "language": {
+                "sZeroRecords": "Нет результатов"
+            },
+            pagingType: 'simple_numbers',
             processing: false,
             serverSide: true,
             ajax: {
@@ -113,42 +117,18 @@
                 type: "GET",
             },
             autoWidth: false,
+            columnDefs: [
+                {
+                    targets: [0, 1],
+                    className: 'not-mobile-l none',
+                },
+            ],
             columns: [
                 {data: 'name', width: '250px'},
-                {data: 'edit', width: '250px', className: "text-right"},
+                {data: 'edit', width: '250px', className: "text-right", orderable: false},
             ],
-            order: [],
             dom: 'rt<"datatables-footer d-flex flex-column flex-sm-row align-items-center gap-10px justify-content-between w-100"pl>',
-            initComplete: function () {
-                $('.th').unbind('click');
-                $('.th').on('click', function (e) {
-                    $(this).blur();
-                    var shift = e.shiftKey,
-                        order = table.api().order(),
-                        colIndex = table.api().column(this).index(),
-                        newOrder = [],
-                        processed = false;
-
-                    for (var i = 0; i < order.length; i++) {
-                        var column = order[i][0],
-                            direction = order[i][1];
-
-                        if (column === colIndex) {
-                            if (direction === 'asc') {
-                                newOrder.push([colIndex, 'desc']);
-                                processed = true;
-                            } else if (direction === 'desc') {
-                                table.api().order([]).draw();
-                                processed = true;
-                            }
-                        } else if (shift) {
-                            newOrder.push(order[i]);
-                        }
-                    }
-                    if (!processed) newOrder.push([colIndex, 'asc']);
-                    table.api().order(newOrder).draw();
-                });
-            },
+            order: [],
             responsive: {
                 breakpoints: [{
                     name: 'mobile-l',

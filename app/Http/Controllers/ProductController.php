@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Actions\Products\Listing;
 use App\Http\Requests\Product\ProductStoreRequest;
 use App\Http\Requests\Product\ProductUpdateRequest;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -14,7 +15,13 @@ class ProductController extends BaseController
 {
     public function index()
     {
-        return view('product.index');
+        $categories = Category::query()->get();
+        return view('product.index', ['categories' => $categories]);
+    }
+
+    public function show(Request $request){
+        $product = Product::find($request->id);
+        return view('product.show', compact('product'));
     }
 
     public function update(ProductUpdateRequest $request)
@@ -40,15 +47,16 @@ class ProductController extends BaseController
         try {
             Product::create([
                 "name" => $validated["name"],
+                "description" => $validated["description"],
+                "price" => $validated["price"],
                 "category_id" => $validated["category_id"],
-                'description' => $validated['description'],
-                'price' => $validated['price'],
             ]);
             return ['status' => true];
         } catch (\Throwable) {
             return ['status' => false, 'data' => 'Ошибка'];
         }
     }
+
 
     public function delete(Request $request)
     {
