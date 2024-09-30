@@ -47,6 +47,11 @@ abstract class Presenter implements Presentable
         return '';
     }
 
+    public function searchQuery(?string $query = null)
+    {
+        return $this->entity->search($query);
+    }
+
     public function perSearchShow(): int
     {
         return 0;

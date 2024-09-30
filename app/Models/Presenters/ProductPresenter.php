@@ -17,6 +17,18 @@ class ProductPresenter extends Presenter
         return $name ?: '';
     }
 
+    public function description()
+    {
+        $name = trim($this->entity->description);
+        return $name ?: '';
+    }
+
+    public function price()
+    {
+        $name = trim($this->entity->price);
+        return $name ?: '';
+    }
+
     public function title(): string
     {
         return '';
