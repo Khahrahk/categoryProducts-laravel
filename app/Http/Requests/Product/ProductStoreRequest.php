@@ -13,7 +13,7 @@ class ProductStoreRequest extends FormRequest
             'name' => ['required', Rule::unique('products')],
             'description' => ['sometimes', 'nullable'],
             'price' => ['required', 'integer'],
-            'category_id' => ['required', 'integer'],
+            'categoryId' => ['required', 'integer'],
         ];
     }
 

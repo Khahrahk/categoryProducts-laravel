@@ -82,7 +82,7 @@ class Listing
             $description = $product->description;
             $price = $product->price;
             $category = $product->category_id;
-            $edit = Auth::user()->is_admin === 1 ? Blade::render('<a class="pe-auto" data-bs-toggle="modal" data-bs-target="#update-modal" data-id="{{ $id }}" data-name="{{ $name }}" data-description="{{ $description }}" data-price="{{ $price }}" data-category-id="{{ $category }}"><i class="bx bx-edit icon fs-3"></i></a>', ['id' => $product->id, 'name' => $product->name, 'description' => $description, 'price' => $price, 'category' => $category]) : '';
+            $edit = Auth::user()->is_admin === 1 ? Blade::render('<a class="pe-auto" data-bs-toggle="modal" data-bs-target="#update-modal" data-id="{{ $id }}" data-name="{{ $name }}" data-description="{{ $description }}" data-price="{{ $price }}" data-categoryId="{{ $category }}"><i class="bx bx-edit icon fs-3"></i></a>', ['id' => $product->id, 'name' => $product->name, 'description' => $description, 'price' => $price, 'category' => $category]) : '';
             return compact('name', 'description', 'price', 'category', 'edit');
         });
 

@@ -12,6 +12,9 @@ class ProductUpdateRequest extends FormRequest
         return [
             'id' => 'required',
             'name' => ['required', Rule::unique('products')->ignore($this->id)],
+            'description' => ['sometimes', 'nullable'],
+            'price' => ['required', 'integer'],
+            'categoryId' => ['required', 'integer'],
         ];
     }
 
