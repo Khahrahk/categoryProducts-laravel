@@ -41,6 +41,17 @@ services:
         networks:
             - laravel
 
+
+    meilisearch:
+        image: getmeili/meilisearch:v1.4.2
+        ports:
+            - '7700:7700'
+        environment:
+            - "MEILI_MASTER_KEY=lolololo"
+        networks:
+            - laravel
+        restart: "on-failure"
+
     php:
         build:
             context: .
@@ -55,3 +66,4 @@ services:
             - "${PHP_HOST_PORT}:${PHP_DOCKER_CONTAINER_PORT}"
         networks:
             - laravel
+
