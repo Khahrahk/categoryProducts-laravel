@@ -39,7 +39,12 @@ class CategoryPresenter extends Presenter
 
     public function perSearchShow(): int
     {
-        return 0;
+        return 3;
+    }
+
+    public function searchQuery(?string $query = null)
+    {
+        return $this->entity->search($query);
     }
 
     public function url(): string

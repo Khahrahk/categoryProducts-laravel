@@ -6,10 +6,11 @@ use App\Models\Presenters\ProductPresenter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Laravel\Scout\Searchable;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     protected $fillable = [
         'name',
@@ -17,6 +18,16 @@ class Product extends Model
         'price',
         'category_id'
     ];
+
+    public function searchableAs(): string
+    {
+        return 'products_index';
+    }
+
+    public function toSearchableArray(): array
+    {
+        return $this->toArray();
+    }
 
     public function category(): BelongsTo
     {

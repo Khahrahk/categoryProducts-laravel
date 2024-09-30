@@ -2,10 +2,9 @@
 
 namespace App\Actions\Products;
 
-use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
-use App\View\Components\Button;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
 
 class Listing
@@ -16,12 +15,39 @@ class Listing
     {
         $this->sorts = [
             'name' => ['using' => false, 'direction' => 'desc', 'label' => 'Name', 'id' => 0],
+            'description' => ['using' => false, 'direction' => 'desc', 'label' => 'Description', 'id' => 1],
+            'price' => ['using' => false, 'direction' => 'desc', 'label' => 'Price', 'id' => 2],
         ];
     }
 
     private function buildQuery()
     {
         $req = Product::query();
+        $page = ($this->request->input('start') + $this->request->input('length')) / $this->request->input('length');
+        if ($this->request->has('filter')) {
+            foreach ($this->request->get('filter') as $key => $value) {
+                if (!$value || trim($value) === '') {
+                    continue;
+                }
+                switch ($key) {
+                    case 'name':
+                        $req->where(fn($query) => $query
+                            ->where('name', 'LIKE', "%$value%")
+                        );
+                        break;
+                    case 'priceFrom':
+                        $req->where(fn($query) => $query
+                            ->where('price', '>=', "$value")
+                        );
+                        break;
+                    case 'priceTo':
+                        $req->where(fn($query) => $query
+                            ->where('price', '<=', "$value")
+                        );
+                        break;
+                }
+            }
+        }
 
         if ($this->request->has('order')) {
             foreach ($this->request->get('order') as $order) {
@@ -31,30 +57,38 @@ class Listing
                         $this->sorts['name']['direction'] = $order['dir'];
                         $req->orderBy('name', $order['dir']);
                         break;
+                    case 1:
+                        $this->sorts['description']['using'] = true;
+                        $this->sorts['description']['direction'] = $order['dir'];
+                        $req->orderBy('description', $order['dir']);
+                        break;
+                    case 2:
+                        $this->sorts['price']['using'] = true;
+                        $this->sorts['price']['direction'] = $order['dir'];
+                        $req->orderBy('price', $order['dir']);
+                        break;
                 }
             }
         }
-        return $req;
+
+        return $req->paginate($this->request->input('length'), ['*'], 'page', $page);
     }
 
     public function get(): array
     {
-        $sorting = str('');
-        $result['data'] = $this->buildQuery()->get();
-        $result['data']->transform(static function (Product $product) {
-            $name = Blade::renderComponent((new Button(link: true, label: $product->presenter()->name()))->withAttributes([
-                'primary' => true,
-                'data-bs-toggle'=>"modal",
-                'data-bs-target' => "#update-modal",
-                'data-id' => $product->id,
-                'data-name' => $product->name
-            ]));
-
-            return compact('name');
+        $result = $this->buildQuery();
+        $result->transform(static function (Product $product) {
+            $name = Blade::render('<x-button link href="{{ $url }}">{{ $name }}</x-button>', ['url' => route('products.show', $product->id), 'name' => $product->presenter()->name()]);
+            $description = $product->description;
+            $price = $product->price;
+            $category = $product->category_id;
+            $edit = Auth::user()->is_admin === 1 ? Blade::render('<a class="pe-auto" data-bs-toggle="modal" data-bs-target="#update-modal" data-id="{{ $id }}" data-name="{{ $name }}" data-description="{{ $description }}" data-price="{{ $price }}" data-categoryId="{{ $category }}"><i class="bx bx-edit icon fs-3"></i></a>', ['id' => $product->id, 'name' => $product->name, 'description' => $description, 'price' => $price, 'category' => $category]) : '';
+            return compact('name', 'description', 'price', 'category', 'edit');
         });
 
-        $result['data'] = $result['data']->toArray();
-        $result['sorting'] = $sorting->toString();
+        $result = $result->toArray();
+        $result['recordsTotal'] = $result['total'];
+        $result['recordsFiltered'] = $result['total'];
         return $result;
     }
 }

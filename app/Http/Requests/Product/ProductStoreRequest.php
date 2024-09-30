@@ -10,7 +10,10 @@ class ProductStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', Rule::unique('issues')],
+            'name' => ['required', Rule::unique('products')],
+            'description' => ['sometimes', 'nullable'],
+            'price' => ['required', 'integer'],
+            'categoryId' => ['required', 'integer'],
         ];
     }
 

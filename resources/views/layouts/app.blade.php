@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     @include('panels/styles')
 </head>
-<body class="vertical-layout vertical-menu-modern blank-page" data-menu="vertical-menu-modern" data-col="blank-page" data-framework="laravel" data-asset-path="{{ asset('/') }}">
+<body class="vertical-layout vertical-menu-modern blank-page h-100" data-menu="vertical-menu-modern" data-col="blank-page" data-framework="laravel" data-asset-path="{{ asset('/') }}">
 <div class="d-flex flex-column app-content content h-100">
     @include('panels.navbar')
     <div class="d-flex flex-row content-area-wrapper h-100">

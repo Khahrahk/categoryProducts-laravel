@@ -23,7 +23,10 @@ Route::middleware("auth:web")->group(function () {
         Route::get('/{id}', [\App\Http\Controllers\CategoryController::class, 'show'])->name('show');
     });
 
-    Route::get('/products', [\App\Http\Controllers\ProductController::class, 'index'])->name('products');
+    Route::prefix('products')->as('products.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\ProductController::class, 'index'])->name('index');
+        Route::get('/{id}', [\App\Http\Controllers\ProductController::class, 'show'])->name('show');
+    });
 });
 
 Route::middleware("guest:web")->group(function () {
